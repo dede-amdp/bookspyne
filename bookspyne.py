@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
 from typing import *
-from os import mkdir
-from os import listdir
-from os.path import isfile, join
+from os import mkdir, listdir, getcwd
+from os.path import isfile, join, isabs
 from sys import argv
 
 """ #@
@@ -224,15 +223,21 @@ def handle_inputs() -> None:
             case "-o":
                 i = i+1
                 file_name = argv[i]
+                if not isabs(file_name):
+                    file_name = join(getcwd(),file_name.replace("./", "",1))
             case "-i":
                 i = i+1
                 toc_path = argv[i]
+                if not isabs(toc_path):
+                    toc_path = join(getcwd(),toc_path.replace("./", "",1))
             case "-t":
                 i = i+1
                 title = argv[i]
             case "--fromdir":
                 i = i+1
                 toc_path = argv[i]
+                if not isabs(toc_path):
+                    toc_path = join(getcwd(),toc_path.replace("./", "",1))
                 source_directory = True
             case "--usage":
                 print_usage()
