@@ -130,7 +130,7 @@ def extract_data(path: str, directory: bool = False, title: str =  None) -> Tupl
     if not directory:
         try:
             # if a file was specified
-            with open(path, "r") as index_files:
+            with open(path, "r", encoding="utf8") as index_files:
                 data = index_files.readlines()
                 book_title = ":".join(data[0].split(":")[1:])
                 files_list = data[1:] # create a file list from the contents of the table of contents file
@@ -143,12 +143,18 @@ def extract_data(path: str, directory: bool = False, title: str =  None) -> Tupl
 
     data = []
     for file_name in files_list:
-        with open(file_name.strip(), "r") as file_data:
-            # read each of the specified files
-            data += file_data.readlines() 
-            #? maybe loading all these files in the main memory is not a good move, 
-            #? maybe modify to handle each file separately and append info to the 
-            #? output file as it goes?
+        try:
+            absolute_file_path = file_name.strip()
+            if not isabs(absolute_file_path):
+                absolute_file_path = join(getcwd(),absolute_file_path.replace("./", "",1))
+            with open(absolute_file_path, "r", encoding="utf8") as file_data:
+                # read each of the specified files
+                data += file_data.readlines() 
+                #? maybe loading all these files in the main memory is not a good move, 
+                #? maybe modify to handle each file separately and append info to the 
+                #? output file as it goes?
+        except(FileNotFoundError):
+            print(f"{absolute_file_path} not found")
     return (book_title, data)
 
 
@@ -198,7 +204,7 @@ def create_bookspine(book_title: str, book_data: str) -> str:
             whole_data += f"\n\n\n{section_title.strip()}\n"
             continue
         whole_data += line # add the line as it is to the file
-    return "\n".join([formatted_title + toc + whole_data])
+    return "\n".join([formatted_title, "# Index:", toc, whole_data])
 
 """ #@
 @name: handle_inputs
@@ -265,6 +271,6 @@ def handle_inputs() -> None:
         except(FileExistsError):
             continue
     # write the output file
-    with open(file_name, "w") as created_file:
+    with open(file_name, "w", encoding="utf8") as created_file:
         created_file.write(book)
 
