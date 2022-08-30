@@ -1,0 +1,6 @@
+setup.py
+bookspyne.egg-info/PKG-INFO
+bookspyne.egg-info/SOURCES.txt
+bookspyne.egg-info/dependency_links.txt
+bookspyne.egg-info/entry_points.txt
+bookspyne.egg-info/top_level.txt

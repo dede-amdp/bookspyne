@@ -1,0 +1,3 @@
+[console_scripts]
+bookspyne = bookspyne:handle_inputs
+
