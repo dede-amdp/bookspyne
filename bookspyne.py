@@ -194,8 +194,10 @@ def create_bookspine(book_title: str, book_data: str) -> str:
         " padding:auto; width:100%; text-align:center;" +\
         f" font-size:48px\">{book_title.strip()}</div>\n"
     toc: str = ""
+    in_code: bool = False
     for line in book_data:
-        if line[0] == "#":  # found a title
+        if "```" in line: in_code = not in_code
+        if line[0] == "#" and not in_code:  # found a title
             # create the section id and then format the toc item
             section_title = line.strip()
             section_id = "-".join(line.split(" ")[1:]).lower().strip()
