@@ -91,6 +91,19 @@ uses the number of "#" symbols as the number of tabulations that will be inserte
 
 ---
 
+## idfy
+> creates id from section title
+
+strips the section title of all the non alphanumeric characters to always have a valid link
+### Inputs
+- str id_str: string of the title without the "#" characters
+
+### Outputs
+- str: id of the section
+ 
+
+---
+
 ## create_bookspine
 > merges all the files together and adds a table of content
 

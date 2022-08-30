@@ -176,6 +176,15 @@ def format_toc_item(toc_item: str, id: str) ->str:
     first_part = first_part.replace("#", "\t")
     return f"{first_part}  [{second_part}](#{id})"
 
+""" #@
+@name: idfy
+@brief: creates id from section title
+@notes: strips the section title of all the non alphanumeric characters to always have a valid link
+@inputs: 
+- str id_str: string of the title without the "#" characters
+@outputs: 
+- str: id of the section
+@# """
 def idfy(id_str: str) -> str:
     return_str: str = ""
     for c in "-".join(id_str):
@@ -207,7 +216,6 @@ def create_bookspine(book_title: str, book_data: str) -> str:
             # create the section id and then format the toc item
             section_title = line.strip()
             section_id = idfy(line.split(" ")[1:])
-            #section_id = sub("^[a-z0-9]+",'',"-".join(line.split(" ")[1:]).lower().strip())
             # add the toc item to the toc and add the line as it is to the output file
             toc += "\n" + format_toc_item(section_title, section_id)
             whole_data += f"\n\n\n{section_title.strip()}\n"
